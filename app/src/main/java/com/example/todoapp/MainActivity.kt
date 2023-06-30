@@ -1,22 +1,23 @@
 package com.example.todoapp
 
 import android.os.Bundle
-import android.view.View
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.todoapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    //var binding: ActivityMainBinding? = null
-    var newTaskFragment: NewTaskFragment = NewTaskFragment()
-    var mainFragment: MainFragment = MainFragment()
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        getSupportFragmentManager().beginTransaction().replace(R.id.mainFragment, mainFragment).commit()
-        getSupportFragmentManager().beginTransaction().replace(R.id.newTaskFragment, newTaskFragment).commit()
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+        setupActionBarWithNavController(navController)
     }
 }
 
