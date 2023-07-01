@@ -8,7 +8,6 @@ class ItemViewModel(private val itemDao: ItemDao): ViewModel() {
 
     fun fullItems(): Flow<List<TodoItem>> = itemDao.getAll()
 
-    fun scheduleForStopName(text: String): Flow<List<TodoItem>> = itemDao.getByItemText(text)
 }
 
 class ItemViewModelFactory(

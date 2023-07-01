@@ -5,13 +5,13 @@ import androidx.navigation.NavDirections
 import kotlin.Int
 import kotlin.String
 
-public class MainFragmentDirections private constructor() {
+ class MainFragmentDirections private constructor() {
     private data class ActionMainFragmentToNewTaskFragment(
-        public val text: String
+        val text: String
     ) : NavDirections {
-        public override val actionId: Int = R.id.action_mainFragment_to_newTaskFragment
+        override val actionId: Int = R.id.action_mainFragment_to_newTaskFragment
 
-        public override val arguments: Bundle
+        override val arguments: Bundle
             get() {
                 val result = Bundle()
                 result.putString("text", this.text)
@@ -19,8 +19,8 @@ public class MainFragmentDirections private constructor() {
             }
     }
 
-    public companion object {
-        public fun actionMainFragmentToNewTaskFragment(text: String): NavDirections =
+    companion object {
+        fun actionMainFragmentToNewTaskFragment(text: String): NavDirections =
             ActionMainFragmentToNewTaskFragment(text)
     }
 }
