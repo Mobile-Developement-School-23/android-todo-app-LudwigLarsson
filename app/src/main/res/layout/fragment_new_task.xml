@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewTaskFragment">
+    tools:context=".fragments.NewTaskFragment">
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -123,11 +123,6 @@
             android:background="@drawable/delete"
             android:layout_marginLeft="16sp"/>
 
-        <CalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="match_parent"
-            android:background="@color/blue"
-            android:layout_height="match_parent" />
 
         <Button
             android:id="@+id/delete"
@@ -140,31 +135,6 @@
             android:layout_below="@+id/line1"
             android:textColor="@color/red" />
 
-
-        <Button
-            android:id="@+id/cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:text="Отмена"
-            android:textSize="14sp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="40sp"
-            android:layout_toLeftOf="@+id/ready"
-            android:layout_marginRight="10sp"
-            android:textColor="@color/blue" />
-
-        <Button
-            android:id="@+id/ready"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:text="Готово"
-            android:textSize="14sp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="40sp"
-            android:textColor="@color/blue" />
 
     </RelativeLayout>
 

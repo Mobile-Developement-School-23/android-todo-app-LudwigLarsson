@@ -1,6 +1,7 @@
-package com.example.todoapp
+package com.example.todoapp.database
 
 import androidx.room.TypeConverter
+import com.example.todoapp.model.TodoItem
 import java.text.SimpleDateFormat
 import java.util.*
 

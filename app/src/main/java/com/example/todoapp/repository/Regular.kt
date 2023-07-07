@@ -1,8 +1,9 @@
-package com.example.todoapp
+package com.example.todoapp.repository
 
 import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.example.todoapp.model.ToDoApplication
 
 class Regular(val context: Context, parameters: WorkerParameters): Worker(context, parameters) {
     override fun doWork(): Result {

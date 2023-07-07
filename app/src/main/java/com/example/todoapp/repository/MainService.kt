@@ -1,8 +1,15 @@
-package com.example.todoapp
+package com.example.todoapp.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.todoapp.database.AppDatabase
+import com.example.todoapp.retrofit.Element
+import com.example.todoapp.retrofit.ItemApiService
+import com.example.todoapp.retrofit.ItemsRetrofit
+import com.example.todoapp.retrofit.ResponseEl
+import com.example.todoapp.model.ToDoApplication
+import com.example.todoapp.model.TodoItem
 import kotlinx.coroutines.*
 import retrofit2.HttpException
 import retrofit2.Response

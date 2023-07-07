@@ -1,9 +1,10 @@
-package com.example.todoapp
+package com.example.todoapp.model
 
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import com.example.todoapp.database.AppDatabase
 
 class ToDoApplication : Application() {
     val database: AppDatabase by lazy { AppDatabase.getDatabase(this) }

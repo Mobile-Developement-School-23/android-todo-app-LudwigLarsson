@@ -1,7 +1,8 @@
-package com.example.todoapp
+package com.example.todoapp.fragments
 
 import android.os.Bundle
 import androidx.navigation.NavDirections
+import com.example.todoapp.R
 import kotlin.Int
 import kotlin.String
 

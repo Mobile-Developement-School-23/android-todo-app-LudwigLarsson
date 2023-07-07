@@ -1,4 +1,4 @@
-package com.example.todoapp
+package com.example.todoapp.repository
 
 sealed class Result<T : Any> {
     data class Exception<T: Any>(val e: Throwable): Result<T>()

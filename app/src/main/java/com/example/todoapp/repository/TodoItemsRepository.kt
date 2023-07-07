@@ -1,15 +1,16 @@
-package com.example.todoapp
+package com.example.todoapp.repository
 
-import android.content.Context
-import android.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import java.util.*
+import com.example.todoapp.database.AppDatabase
+import com.example.todoapp.retrofit.ResponseEl
+import com.example.todoapp.model.ToDoApplication
+import com.example.todoapp.model.TodoItem
+import kotlinx.coroutines.flow.Flow
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
 
 
 class TodoItemsRepository private constructor(val application: ToDoApplication){
@@ -30,7 +31,8 @@ class TodoItemsRepository private constructor(val application: ToDoApplication){
 
         WorkManager.getInstance(application).enqueue(workPeriodicRequest)
     }
-    fun getToDoItems(): LiveData<List<TodoItem>?> = dao.getToDoItems()
+    fun getTodoItems(): Flow<List<TodoItem>>{
+        return dao.getAll()}
 
     companion object {
         private val repository: TodoItemsRepository? = null
@@ -41,11 +43,8 @@ class TodoItemsRepository private constructor(val application: ToDoApplication){
     }
 
 
-    suspend fun insertTodo(item: TodoItem): Result<ResponseEl>? {
-        dao.insertToDo(item).also {
-            if (application.isInternet()) return poster.insertToDo(item)
-        }
-        return null
+    suspend fun insertTodo(item: TodoItem) {
+        dao.insertToDo(item)
     }
 
     suspend fun updateToDo(item: TodoItem): Result<ResponseEl>? {
@@ -64,6 +63,9 @@ class TodoItemsRepository private constructor(val application: ToDoApplication){
 
     fun updateData() {
         poster.updateData()
+    }
+    suspend fun searchDatabase(searchQuery: String): Flow<List<TodoItem>> {
+        return dao.searchDatabase(searchQuery)
     }
 
 }

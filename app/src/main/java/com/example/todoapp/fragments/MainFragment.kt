@@ -1,20 +1,26 @@
-package com.example.todoapp
+package com.example.todoapp.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.coroutineScope
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentMainBinding
+import com.example.todoapp.model.Adapter
+import com.example.todoapp.model.ItemViewModel
+import com.example.todoapp.model.ItemViewModelFactory
+import com.example.todoapp.model.ToDoApplication
 import kotlinx.coroutines.launch
-import androidx.navigation.findNavController
-import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
+import java.util.Locale
 
 
 class MainFragment : Fragment() {
@@ -22,10 +28,11 @@ class MainFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
     private lateinit var navController: NavController
+    private lateinit var adapter: Adapter
 
     private val viewModel: ItemViewModel by activityViewModels {
         ItemViewModelFactory(
-            (activity?.application as ToDoApplication).database.itemDao()
+            (activity?.application as ToDoApplication)
         )
     }
 
@@ -50,9 +57,8 @@ class MainFragment : Fragment() {
 
         recyclerView = binding.recycler
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = Adapter({
-            val action = MainFragmentDirections
-                .actionMainFragmentToNewTaskFragment(
+        adapter = Adapter({
+            val action = MainFragmentDirections.actionMainFragmentToNewTaskFragment(
                     text = it.text
                 )
             view.findNavController().navigate(action)
@@ -63,5 +69,34 @@ class MainFragment : Fragment() {
                 adapter.submitList(it)
             }
         }
+
+        binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                // it will triggered when
+                // we submit the written test
+                return true
+            }
+            // this function will triggered when we
+            // write even a single char in search view
+            override fun onQueryTextChange(query: String?): Boolean {
+                lifecycle.coroutineScope.launch {
+                    if(query != null){
+                        searchDatabase(query)
+                    }
+                }
+                return true
+            }
+        })
+
+    }
+    private suspend fun searchDatabase(query: String) {
+        // %" "% because our custom sql query will require that
+        val searchQuery = "%$query%"
+
+        viewModel.searchDatabase(searchQuery).observe(this, { list ->
+            list.let {
+                adapter.submitList(it)
+            }
+        })
     }
 }
