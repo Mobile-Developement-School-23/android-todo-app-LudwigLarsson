@@ -1,11 +1,13 @@
-package com.example.todoapp
+package com.example.todoapp.retrofit
 
+import com.example.todoapp.model.TodoItem
 import com.google.gson.*
 import java.lang.reflect.Type
 import java.util.*
+import javax.inject.Inject
 
 
-class ImportanceAdapter: JsonSerializer<TodoItem.Importance>, JsonDeserializer<TodoItem.Importance> {
+class ImportanceAdapter @Inject constructor(): JsonSerializer<TodoItem.Importance>, JsonDeserializer<TodoItem.Importance> {
     override fun serialize(
         src: TodoItem.Importance?,
         typeOfSrc: Type?,
@@ -29,7 +31,7 @@ class ImportanceAdapter: JsonSerializer<TodoItem.Importance>, JsonDeserializer<T
     }
 }
 
-class DateJsonAdapter : JsonSerializer<Date>, JsonDeserializer<Date> {
+class DateJsonAdapter @Inject constructor(): JsonSerializer<Date>, JsonDeserializer<Date> {
     override fun serialize(
         src: Date,
         typeOfSrc: Type,
@@ -47,7 +49,7 @@ class DateJsonAdapter : JsonSerializer<Date>, JsonDeserializer<Date> {
     }
 }
 
-class UUIDAdapter: JsonSerializer<UUID>, JsonDeserializer<UUID> {
+class UUIDAdapter @Inject constructor(): JsonSerializer<UUID>, JsonDeserializer<UUID> {
     override fun serialize(
         src: UUID?,
         typeOfSrc: Type?,

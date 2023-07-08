@@ -1,5 +1,6 @@
-package com.example.todoapp
+package com.example.todoapp.retrofit
 
+import com.example.todoapp.model.TodoItem
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
