@@ -16,5 +16,16 @@ class ToDoApplication : Application() {
             connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
         return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
+    companion object {
+        private lateinit var instance: ToDoApplication
 
+        fun getInstance(): ToDoApplication {
+            return instance
+        }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        instance = this
+    }
 }

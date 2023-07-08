@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.todoapp.database.AppDatabase
+import com.example.todoapp.database.ItemDao
 import com.example.todoapp.retrofit.Element
 import com.example.todoapp.retrofit.ItemApiService
 import com.example.todoapp.retrofit.ItemsRetrofit
@@ -13,15 +14,12 @@ import com.example.todoapp.model.TodoItem
 import kotlinx.coroutines.*
 import retrofit2.HttpException
 import retrofit2.Response
+import javax.inject.Inject
 
-class MainService(
-    val application: ToDoApplication
+class MainService @Inject constructor(
+    val application: ToDoApplication,
+    val dao: ItemDao,
 ) {
-    private val database by lazy { AppDatabase.getDatabase(application) }
-
-    private val dao by lazy { database.itemDao() }
-
-    private val api: ItemApiService = ItemsRetrofit().api
 
     private var revision: Int = 0
 
@@ -42,10 +40,10 @@ class MainService(
 
     init {
         _load.value = false
-        updateData()
+        //updateData()
     }
 
-    suspend fun insertToDo(item: TodoItem): Result<ResponseEl> {
+    /*suspend fun insertToDo(item: TodoItem): Result<ResponseEl> {
         if (revision != getServerRevision()) merge()
         return handleApi { api.addToDo(revision, Element(item)) }.also {
             operationWithServerComplete()
@@ -122,7 +120,7 @@ class MainService(
 
     private fun operationWithServerComplete() {
         ++revision
-    }
+    }*/
 }
 
 suspend fun <T : Any> handleApi(

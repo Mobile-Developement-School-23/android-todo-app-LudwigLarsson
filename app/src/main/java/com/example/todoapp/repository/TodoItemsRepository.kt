@@ -7,19 +7,20 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.todoapp.database.AppDatabase
+import com.example.todoapp.database.ItemDao
 import com.example.todoapp.retrofit.ResponseEl
 import com.example.todoapp.model.ToDoApplication
 import com.example.todoapp.model.TodoItem
 import kotlinx.coroutines.flow.Flow
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 
-class TodoItemsRepository private constructor(val application: ToDoApplication){
-    private val database by lazy { AppDatabase.getDatabase(application) }
-
-    private val dao by lazy { database.itemDao() }
-
-    private val poster by lazy { MainService(application) }
+class TodoItemsRepository @Inject constructor(
+    val application: ToDoApplication,
+    val dao: ItemDao,
+    val poster: MainService
+){
 
     init {
         val constraints = Constraints.Builder()
@@ -35,14 +36,6 @@ class TodoItemsRepository private constructor(val application: ToDoApplication){
     fun getTodoItems(): Flow<List<TodoItem>>{
         return dao.getAll()}
 
-    companion object {
-        private val repository: TodoItemsRepository? = null
-
-        fun getInstance(application: ToDoApplication): TodoItemsRepository =
-            repository ?: TodoItemsRepository(application)
-
-    }
-
     suspend fun insertTodo(item: TodoItem) {
         dao.insertToDo(item)
     }
@@ -56,9 +49,9 @@ class TodoItemsRepository private constructor(val application: ToDoApplication){
         Log.d("delete from repository", item.id.toString())
     }
 
-    fun updateData() {
+    /*fun updateData() {
         poster.updateData()
-    }
+    }*/
     suspend fun searchDatabase(searchQuery: String): Flow<List<TodoItem>> {
         return dao.searchDatabase(searchQuery)
     }

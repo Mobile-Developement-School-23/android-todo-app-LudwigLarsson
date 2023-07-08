@@ -16,14 +16,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ItemViewModel(val application: ToDoApplication) : AndroidViewModel(application) {
+class ItemViewModel(
+    val application: ToDoApplication,
+    val repository: TodoItemsRepository,
+) : AndroidViewModel(application) {
     private val database by lazy { AppDatabase.getDatabase(application) }
 
     private val itemDao by lazy { database.itemDao() }
     private val job = Job()
     var savedToDoItem: TodoItem? = null
-    private var repository: TodoItemsRepository = TodoItemsRepository.getInstance(application)
     private val coroutineExceptionHandler =
         CoroutineExceptionHandler { coroutineContext, throwable ->
             Log.e("Coroutine exception Handler", "Error: ${throwable.message}")
@@ -55,8 +58,10 @@ class ItemViewModel(val application: ToDoApplication) : AndroidViewModel(applica
 }
 
 
-class ItemViewModelFactory(private val application: ToDoApplication) : ViewModelProvider.Factory {
+class ItemViewModelFactory@Inject constructor(
+    val application: ToDoApplication,
+    val repository: TodoItemsRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return ItemViewModel(application) as T
+        return ItemViewModel(application, repository) as T
     }
 }
