@@ -1,5 +1,6 @@
 package com.example.todoapp.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.work.Constraints
 import androidx.work.NetworkType
@@ -42,23 +43,17 @@ class TodoItemsRepository private constructor(val application: ToDoApplication){
 
     }
 
-
     suspend fun insertTodo(item: TodoItem) {
         dao.insertToDo(item)
     }
 
-    suspend fun updateToDo(item: TodoItem): Result<ResponseEl>? {
-        dao.updateToDoItem(item).also {
-            if (application.isInternet()) return poster.updateToDo(item)
-        }
-        return null
+    suspend fun updateToDo(item: TodoItem) {
+        dao.updateToDoItem(item)
     }
 
-    suspend fun deleteToDo(item: TodoItem): Result<ResponseEl>? {
-        dao.updateToDoItem(item.apply { }).also {
-            if (application.isInternet()) return poster.updateToDo(item)
-        }
-        return null
+    suspend fun deleteToDo(item: TodoItem) {
+        dao.deleteTodo(item.id)
+        Log.d("delete from repository", item.id.toString())
     }
 
     fun updateData() {

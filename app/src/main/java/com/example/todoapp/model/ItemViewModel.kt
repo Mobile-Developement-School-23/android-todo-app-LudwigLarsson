@@ -37,6 +37,17 @@ class ItemViewModel(val application: ToDoApplication) : AndroidViewModel(applica
             val networkResult = repository.insertTodo(newToDo)
         }
     }
+    fun updateToDo(todoItem: TodoItem) {
+        scope.launch {
+            val networkResult = repository.updateToDo(todoItem)
+        }
+    }
+
+    fun deleteToDo(todoItem: TodoItem) {
+        scope.launch {
+            val networkResult = repository.deleteToDo(todoItem)
+        }
+    }
 
     suspend fun searchDatabase(searchQuery: String): LiveData<List<TodoItem>> {
         return repository.searchDatabase(searchQuery).asLiveData()

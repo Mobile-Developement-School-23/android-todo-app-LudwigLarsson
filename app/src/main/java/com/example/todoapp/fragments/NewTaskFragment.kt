@@ -55,6 +55,7 @@ class NewTaskFragment : Fragment() {
         val delete: Button = binding.delete
         val save: Button = binding.save
         val close: ImageView = binding.close
+        binding.created.visibility = View.GONE
 
         save.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {

@@ -19,11 +19,13 @@ import com.example.todoapp.model.Adapter
 import com.example.todoapp.model.ItemViewModel
 import com.example.todoapp.model.ItemViewModelFactory
 import com.example.todoapp.model.ToDoApplication
+import com.example.todoapp.model.TodoItem
+import com.example.todoapp.model.onClickCallbacks
 import kotlinx.coroutines.launch
 import java.util.Locale
 
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), onClickCallbacks {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
@@ -59,10 +61,9 @@ class MainFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = Adapter({
             val action = MainFragmentDirections.actionMainFragmentToNewTaskFragment(
-                    text = it.text
                 )
             view.findNavController().navigate(action)
-        })
+        }, this)
         recyclerView.adapter = adapter
         lifecycle.coroutineScope.launch {
             viewModel.fullItems().collect() {
@@ -72,12 +73,8 @@ class MainFragment : Fragment() {
 
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                // it will triggered when
-                // we submit the written test
                 return true
             }
-            // this function will triggered when we
-            // write even a single char in search view
             override fun onQueryTextChange(query: String?): Boolean {
                 lifecycle.coroutineScope.launch {
                     if(query != null){
@@ -90,7 +87,6 @@ class MainFragment : Fragment() {
 
     }
     private suspend fun searchDatabase(query: String) {
-        // %" "% because our custom sql query will require that
         val searchQuery = "%$query%"
 
         viewModel.searchDatabase(searchQuery).observe(this, { list ->
@@ -98,5 +94,9 @@ class MainFragment : Fragment() {
                 adapter.submitList(it)
             }
         })
+    }
+    override fun onItemClick(item: TodoItem) {
+        binding.root.findNavController()
+            .navigate(MainFragmentDirections.actionMainFragmentToEditFragment(item))
     }
 }

@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class Adapter(
-    private val onItemClicked: (TodoItem) -> Unit
+    private val onItemClicked: (TodoItem) -> Unit, val callbacks: onClickCallbacks
 ) : ListAdapter<TodoItem, Adapter.ItemViewHolder>(DiffCallback) {
 
     companion object {
@@ -46,6 +46,9 @@ class Adapter(
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        holder.itemView.setOnClickListener {
+            callbacks.onItemClick(getItem(position))
+        }
         holder.bind(getItem(position))
     }
 
@@ -55,10 +58,6 @@ class Adapter(
         @SuppressLint("SimpleDateFormat")
         fun bind(todoItem: TodoItem) {
             binding.itemText.text = todoItem.text
-            /*binding.checkBox.text = SimpleDateFormat(
-                "h:mm a").format(
-                Date(todoItem.arrivalTime.toLong() * 1000)
-            )*/
             if (todoItem.flag == TodoItem.Completed.COMPLETED) {
                 binding.checkBox.isChecked = true
                 binding.importance.visibility = View.GONE
@@ -115,4 +114,8 @@ class Adapter(
             }
         }
     }
+}
+
+interface onClickCallbacks {
+    fun onItemClick(item: TodoItem)
 }
