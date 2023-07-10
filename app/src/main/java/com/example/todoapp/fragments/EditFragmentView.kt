@@ -89,13 +89,6 @@ class EditFragmentView @Inject constructor(
     }
 
     private fun setData() {
-        val spinner = rootView.findViewById<Spinner>(R.id.spinner)
-        val position = spinner.selectedItemPosition
-        when(position) {
-            0 -> importance = TodoItem.Importance.COMMON
-            1 -> importance = TodoItem.Importance.LOW
-            2 -> importance = TodoItem.Importance.HIGH
-        }
         val editableTitle: Editable? =
             item.text.let { Editable.Factory.getInstance().newEditable(it) }
         smthtodo.text = editableTitle
@@ -192,6 +185,13 @@ class EditFragmentView @Inject constructor(
         }
 
         val currentDate = Date()
+        val spinner = rootView.findViewById<Spinner>(R.id.spinner)
+        val position = spinner.selectedItemPosition
+        when(position) {
+            0 -> importance = TodoItem.Importance.COMMON
+            1 -> importance = TodoItem.Importance.LOW
+            2 -> importance = TodoItem.Importance.HIGH
+        }
 
         val newToDo = TodoItem(
             id = item.id,

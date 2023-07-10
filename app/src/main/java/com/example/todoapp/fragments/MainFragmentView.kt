@@ -45,7 +45,7 @@ class MainFragmentView @Inject constructor(
             val action = MainFragmentDirections.actionMainFragmentToNewTaskFragment(
             )
             rootView.findNavController().navigate(action)
-        }, this)
+        }, this, viewModel)
         recyclerView.adapter = adapter
         viewModel.fullItems().collect() {
             adapter.submitList(it)

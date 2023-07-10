@@ -5,6 +5,7 @@ import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -15,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class Adapter(
-    private val onItemClicked: (TodoItem) -> Unit, val callbacks: onClickCallbacks
+    private val onItemClicked: (TodoItem) -> Unit, val callbacks: onClickCallbacks, val viewModel: ItemViewModel
 ) : ListAdapter<TodoItem, Adapter.ItemViewHolder>(DiffCallback) {
 
     companion object {
@@ -49,14 +50,14 @@ class Adapter(
         holder.itemView.setOnClickListener {
             callbacks.onItemClick(getItem(position))
         }
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), viewModel)
     }
 
     class ItemViewHolder(
         private var binding: ItemBinding
     ): RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SimpleDateFormat")
-        fun bind(todoItem: TodoItem) {
+        fun bind(todoItem: TodoItem, viewModel: ItemViewModel) {
             binding.itemText.text = todoItem.text
             if (todoItem.flag == TodoItem.Completed.COMPLETED) {
                 binding.checkBox.isChecked = true
@@ -81,29 +82,29 @@ class Adapter(
                 when (todoItem.importance) {
                     TodoItem.Importance.HIGH -> {
                         with(binding.importance) {
-                            visibility = android.view.View.VISIBLE
+                            visibility = View.VISIBLE
                             setColorFilter(
-                                androidx.core.content.ContextCompat.getColor(
+                                ContextCompat.getColor(
                                     context,
-                                    com.example.todoapp.R.color.red
+                                    R.color.red
                                 ),
-                                android.graphics.PorterDuff.Mode.SRC_IN
+                                PorterDuff.Mode.SRC_IN
                             )
-                            setImageResource(com.example.todoapp.R.drawable.importance)
+                            setImageResource(R.drawable.importance)
                         }
                     }
 
                     TodoItem.Importance.LOW -> {
                         with(binding.importance) {
-                            visibility = android.view.View.VISIBLE
+                            visibility = View.VISIBLE
                             setColorFilter(
-                                androidx.core.content.ContextCompat.getColor(
+                                ContextCompat.getColor(
                                     context,
-                                    com.example.todoapp.R.color.gray
+                                    R.color.gray
                                 ),
-                                android.graphics.PorterDuff.Mode.SRC_IN
+                                PorterDuff.Mode.SRC_IN
                             )
-                            setImageResource(com.example.todoapp.R.drawable.low_importance)
+                            setImageResource(R.drawable.low_importance)
                         }
                     }
 
@@ -111,6 +112,19 @@ class Adapter(
                         binding.importance.visibility = View.GONE
                     }
                 }
+            }
+            val checkBox: CheckBox = binding.checkBox
+            checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+                val newToDo = TodoItem(
+                    id = todoItem.id,
+                    text = todoItem.text,
+                    importance = todoItem.importance,
+                    deadline = todoItem.deadline,
+                    flag = TodoItem.Completed.COMPLETED,
+                    creationDate = todoItem.creationDate,
+                    changeDate = todoItem.changeDate
+                )
+                viewModel.updateToDo(newToDo)
             }
         }
     }
