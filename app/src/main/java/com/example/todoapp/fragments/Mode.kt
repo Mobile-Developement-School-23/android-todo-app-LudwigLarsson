@@ -4,4 +4,5 @@ enum class Mode {
     NIGHT,
     LIGHT,
     SYSTEM
+
 }

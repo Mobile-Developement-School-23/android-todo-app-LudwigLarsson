@@ -80,6 +80,7 @@
         android:text="Сделать до:"
         android:background="@color/back_secondary"
         style="@style/Hint"
+
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/importance"
         tools:layout_editor_absoluteY="40dp"

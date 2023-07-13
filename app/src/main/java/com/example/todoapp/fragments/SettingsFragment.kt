@@ -14,4 +14,5 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
+
 }
