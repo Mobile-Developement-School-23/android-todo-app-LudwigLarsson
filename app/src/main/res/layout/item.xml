@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:color="@color/back_secondary"
     android:paddingBottom="14dp">
 
 
@@ -28,7 +28,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:layout_goneMarginStart="19dp"
-        android:background="@color/white"
+        android:background="@color/back_secondary"
+        android:textColor="@color/black"
         tools:text="" />
 
     <ImageView
@@ -39,7 +40,7 @@
         android:src="@drawable/importance"
         android:textSize="20sp"
         android:visibility="gone"
-        android:background="@color/white"
+        android:color="@color/back_secondary"
         app:layout_constraintBottom_toBottomOf="@id/space"
         app:layout_constraintEnd_toStartOf="@+id/itemText"
         app:layout_constraintStart_toEndOf="@+id/checkBox"
@@ -62,9 +63,9 @@
         android:id="@+id/deadline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="?attr/colorAccent"
+        android:textColor="@color/blue"
         android:textSize="13sp"
-        android:background="@color/white"
+        android:background="@color/back_secondary"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/tv"
         app:layout_constraintStart_toEndOf="@+id/tv"
@@ -77,7 +78,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Сделать до:"
-        android:background="@color/white"
+        android:background="@color/back_secondary"
+        style="@style/Hint"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/importance"
         tools:layout_editor_absoluteY="40dp"
