@@ -2,6 +2,7 @@ package com.example.todoapp.fragments
 
 import android.app.Activity
 import android.view.View
+import android.widget.ImageView
 import android.widget.SearchView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
@@ -31,11 +32,18 @@ class MainFragmentView @Inject constructor(
 
     suspend fun init() {
         val fab = rootView.findViewById<FloatingActionButton>(R.id.fab)
+        val settings = rootView.findViewById<ImageView>(R.id.settings)
 
         fab.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
                 rootView.findNavController()
                     .navigate(MainFragmentDirections.actionMainFragmentToNewTaskFragment())
+            }
+        })
+        settings.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                rootView.findNavController()
+                    .navigate(MainFragmentDirections.actionMainFragmentToSettingsFragment())
             }
         })
 

@@ -52,8 +52,18 @@
                 android:layout_below="@+id/tv"
                 android:layout_marginLeft="4sp"
                 style="@style/Hint" />
+            <ImageView
+                android:id="@+id/settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:background="@drawable/settings"
+                android:layout_marginRight="16sp"
+                android:layout_below="@+id/tv"
+                android:layout_toStartOf="@+id/visibility"/>
 
             <ImageView
+                android:id="@+id/visibility"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
