@@ -12,10 +12,25 @@
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_newTaskFragment"
-            app:destination="@id/newTaskFragment" />
+            app:destination="@id/newTaskFragment"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"/>
+        <action
+            android:id="@+id/action_mainFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"/>
         <action
             android:id="@+id/action_mainFragment_to_editFragment"
-            app:destination="@id/editFragment" />
+            app:destination="@id/editFragment"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"/>
     </fragment>
     <fragment
         android:id="@+id/newTaskFragment"
@@ -24,10 +39,15 @@
         tools:layout="@layout/fragment_new_task">
     </fragment>
     <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.todoapp.fragments.SettingsFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_settings">
+    </fragment>
+    <fragment
         android:id="@+id/editFragment"
         android:name="com.example.todoapp.fragments.EditFragment"
-        android:label="EditFragment"
-        tools:layout="@layout/fragment_new_task">
+        android:label="EditFragment">
         <argument
             android:name="todoitem"
             app:argType="com.example.todoapp.model.TodoItem" />

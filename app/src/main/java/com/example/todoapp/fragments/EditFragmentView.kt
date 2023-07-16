@@ -3,35 +3,25 @@ package com.example.todoapp.fragments
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.os.Bundle
+import android.graphics.Color
 import android.text.Editable
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Switch
 import android.widget.TextView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.todoapp.R
-import com.example.todoapp.databinding.FragmentNewTaskBinding
 import com.example.todoapp.model.ItemViewModel
-import com.example.todoapp.model.ItemViewModelFactory
-import com.example.todoapp.model.ToDoApplication
 import com.example.todoapp.model.TodoItem
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import java.util.UUID
 import javax.inject.Inject
 
 class EditFragmentView @Inject constructor(
@@ -46,6 +36,7 @@ class EditFragmentView @Inject constructor(
     private var deadline: Date? = null
 
     private var importance: TodoItem.Importance = TodoItem.Importance.LOW
+    private val supportFragmentManager by lazy { activity.fragmentManager }
 
     val close = rootView.findViewById<ImageView>(R.id.close)
     val delete = rootView.findViewById<Button>(R.id.delete)
@@ -57,7 +48,7 @@ class EditFragmentView @Inject constructor(
     val created = rootView.findViewById<TextView>(R.id.created)
     val smthtodo = rootView.findViewById<EditText>(R.id.smthtodo)
 
-    private lateinit var argumentsFromMain: EditFragmentArgs
+    //private lateinit var argumentsFromMain: EditFragmentArgs
     fun configurationChange() {
         item = viewModel.savedToDoItem ?: throw IllegalStateException("my error")
     }
@@ -93,6 +84,7 @@ class EditFragmentView @Inject constructor(
             item.text.let { Editable.Factory.getInstance().newEditable(it) }
         smthtodo.text = editableTitle
 
+        delete.setTextColor(Color.parseColor("#FE0000"))
 
         val converter = SimpleDateFormat("dd.MM.yy", Locale("ru", "RU"))
         val convertedDeadline = item.deadline?.let { converter.format(it) }
@@ -111,6 +103,7 @@ class EditFragmentView @Inject constructor(
 
         delete.isClickable = true
     }
+
 
     private fun taskCompleted() {
         if (item.flag == TodoItem.Completed.DISCOMPLETED) return
@@ -165,6 +158,7 @@ class EditFragmentView @Inject constructor(
         builder.setTitle("Вы уверены?")
         builder.setPositiveButton("Да") { _, _ ->
             viewModel.deleteToDo(item)
+            delete.setTextColor(Color.parseColor("#FF6767"))
             rootView.findNavController().popBackStack()
         }
         builder.setNegativeButton("Нет") { dialog, _ ->
@@ -205,5 +199,8 @@ class EditFragmentView @Inject constructor(
         viewModel.updateToDo(newToDo)
         rootView.findNavController().popBackStack()
         return true
+    }
+    interface BottomSheetInterface {
+        fun selectImportance()
     }
 }
